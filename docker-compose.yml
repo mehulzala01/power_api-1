@@ -56,7 +56,7 @@ services:
     container_name: django
     restart: on-failure
     ports:
-      8080:8000
+      - 8080:8000
     volumes:
       - django_main:/opt/services/djangoapp/src
       - django_nginx:/opt/services/djangoapp/src/config/nginx/conf.d
@@ -71,9 +71,9 @@ services:
     restart: on-failure
     pull_policy: always
     ports:
-      5000:5000
-    volume:
-      - cache_pretrained: /home/johnsnowlabs/cache_pretrained
+      - 5000:5000
+    volumes:
+      - cache_pretrained:/home/johnsnowlabs/cache_pretrained
 
 volumes:
   jupyterhub_data:
