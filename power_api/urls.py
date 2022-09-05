@@ -14,8 +14,13 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
+
+admin.site.site_header = 'EACH Power API Admin'
+admin.site.site_title = 'EACH Power API'
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('api_auth', include('rest_framework.urls')), 
+    path('api/', include('vadc_dtau.urls', namespace='api'))
 ]
