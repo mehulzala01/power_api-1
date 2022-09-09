@@ -52,29 +52,58 @@ services:
       - neo4j_import:/var/lib/neo4j/import
       - neo4j_plugins:/plugins
   django_api:
-    image: ubuntu:latest
+    image: robin0821/hrar:latest
     container_name: django
-    restart: on-failure
-    ports:
-      - 8080:8000
+    restart: always
     volumes:
-      - django_main:/opt/services/djangoapp/src
-      - django_nginx:/opt/services/djangoapp/src/config/nginx/conf.d
-      - static_volume:/opt/services/djangoapp/src/static 
-      - media_volume:/opt/services/djangoapp/src/media 
+      - geodjango_main:/opt/services/djangoapp/src
+      - geodjango_nginx:/opt/services/djangoapp/src/config/nginx/conf.d
+      - static_volume:/opt/services/djangoapp/src/static
+      - media_volume:/opt/services/djangoapp/src/media
     depends_on:
-      - postgis  
-    command: ["sleep","infinity"]
+      - postgis
+  nginx:
+    image: nginx:latest
+    restart: always
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - geodjango_nginx:/etc/nginx/conf.d
+      - static_volume:/opt/services/djangoapp/src/static
+    depends_on:
+      - django_api 
   nlp:
     image: johnsnowlabs/nlp-server:latest
     container_name: nlp
-    restart: on-failure
+    restart: always
     pull_policy: always
     ports:
       - 5000:5000
     volumes:
       - cache_pretrained:/home/johnsnowlabs/cache_pretrained
-
+  tensorflow:
+    image: tensorflow/tensorflow:latest-jupyter
+    container_name: tensorflow
+    restart: on-failure
+    user: "${UID}:${GID}"
+    ports:
+      - 8888:8888
+    volumes:
+      - /home/robinduadmin/work:/tf/notebooks
+  zeppelin:
+    image: apache/zeppelin:0.10.1
+    container_name: zeppelin
+    restart: on-failure
+    ports:
+      - 8081:8080
+    environment:
+      - ZEPPELIN_NOTEBOOK_DIR=/notebook
+      - ZEPPELIN_LOG_DIR=/logs
+    volumes:
+      - /home/robinduadmin/work:/notebook
+      - /home/robinduadmin/work/zeppelin_logs:/logs
+  
 volumes:
   jupyterhub_data:
   postgres:
@@ -83,8 +112,8 @@ volumes:
   neo4j_logs:
   neo4j_import:
   neo4j_plugins:
-  django_main:
-  django_nginx:
+  geodjango_main:
+  geodjango_nginx:
   static_volume:
   media_volume:  
   cache_pretrained:
