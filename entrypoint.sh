@@ -3,7 +3,7 @@ touch ./logs/gunicorn-access.log
 tail -n 0 -f ./logs/gunicorn*.log &
 
 exec gunicorn power_api.wsgi:application \
-    --name hrar_azure \
+    --name power_api \
     --bind 0.0.0.0:8000 \
     --workers 4 \
     --log-level=info \
