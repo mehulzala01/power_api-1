@@ -22,7 +22,7 @@ class CustomAuthToken(ObtainAuthToken):
         })
 
 @api_view(['GET', 'POST'])
-def vadc_dtau_base(request):
+def vadc_dtau_cal(request):
     if request.method == 'POST':
         return Response({'message': "Got some data!", 
                          'data': request.data})

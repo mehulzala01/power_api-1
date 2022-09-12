@@ -1,0 +1,15 @@
+{
+    "service_stream":
+    "start_date":
+    "end_date":
+    "funding_source":
+    "target_population":
+    "course_length":
+    "contact_count":
+    "contact_method":
+    "indigenous_status":
+    "acso_identifier":
+    "referral_direction":
+    "event_type":
+    "percentage_course_completed":
+}
