@@ -1,4 +1,4 @@
-FROM ubuntu:bionic
+FROM ubuntu:latest
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV LANG C.UTF-8
@@ -8,6 +8,7 @@ RUN add-apt-repository ppa:deadsnakes/ppa
 RUN apt-get update && apt-get install -y \
     # std libs
     git less nano curl \
+    apt-utils \
     ca-certificates \
     wget build-essential\
     # python basic libs
@@ -33,6 +34,7 @@ RUN pip3 install djangorestframework-gis
 RUN pip3 install psycopg2
 RUN pip3 install tensorflow
 RUN pip3 install tensorflow-text
+RUN pip3 install python-dotenv
 RUN pip3 install gunicorn
 
 # expose the port 8000
