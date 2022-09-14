@@ -1,15 +1,39 @@
-{
-    "service_stream":
-    "start_date":
-    "end_date":
-    "funding_source":
-    "target_population":
-    "course_length":
-    "contact_count":
-    "contact_method":
-    "indigenous_status":
-    "acso_identifier":
-    "referral_direction":
-    "event_type":
-    "percentage_course_completed":
+request_data = {
+    "service_stream": ['AD20', 'AD51', 'AD71', 'AD50', 'AD21', 'AD11', 'AD30', 'AD52','AD33', 'AD80', 'CHOI'],
+    "start_date": 'String',
+    "end_date": 'String',
+    "funding_source": 'String',
+    "target_population": ['General Non-specific', 'Youth', 'Women', 'Men', None, 'Parent with Child', 'Family'],
+    "course_length": ['Extended', 'Standard', 'Not applicable', 'Not stated/inadequately described', None], 
+    "contact_count": 'string/int', 
+    "contact_method": [ 6., 17.,  5., 19.,  1., 22.,  4., 18.,  8.,  7.,  2.,  3., 12., nan],
+    "indigenous_status": ['Not Stated/inadequately described', 'NOT Aboriginal or TSI', 'Aboriginal', None, 'Patient refused to answer', 'Torres Strait Islander'],
+    "acso_identifier": ['1654784', '511107', None, '229295', '518747', '1674478',
+                        '1672292', '1678732', '134710', '182831', '232203', '1699829',
+                        '532098', '1703312', '114980', '1698255', '1709611', '1709617',
+                        '1709620', '220586', '1705624', '1705678', '1726792', '233988',
+                        '1729850', '270554', '235251', '1724875', '156452', '218470',
+                        '232272', '233155', '230563', '1734037', '133719', '220081',
+                        '146104', '118215', '1654770', '1674514', '1674455', '1674483',
+                        '1677552', '138021', '1692504', '1698261', '231219', '1696720',
+                        '1708155', '1701366', '1702397', '131584', '1719110', '1723061',
+                        '1727033', '1726791', '1724860', '1723691', '232503', '232534',
+                        '232375', '1729868', '185698', '226452', '1734435', '229743',
+                        '233187'],
+    "referral_direction": ['Referral IN', 'Referral OUT', None],
+    "event_type": [ 3.,  2.,  4.,  1., None],
+    "percentage_course_completed": ['75% of course completed', '100% of course completed', '50% of course completed', '25% of course completed',
+                                        'None of course completed', None, 'Not stated / inadequately described'],
+    "contact_type": ['A', 'P', 'FE', 'C', 'I'],
+    "significant_goal_achieved": 'string',
+    "service_team": ['AOD Eastern Harm Minimisation', 'AOD Eastern',
+                    'AOD SE Harm Minimisation', 'AOD Intake', 'AOD Inner East',
+                    'AOD Assessment Inner East', 'AOD Assessment South East',
+                    'Maroondah Addictions Recovery Project', 'AOD South East',
+                    'AOD Assessment Eastern', 'AOD Youth', 'Reconnexion', 'IST IE AOD',
+                    'AOD Family Counselling (other funding)', 'IST YR AOD',
+                    'Choices Program South Eastern'],
+    "outlet_code": 'string',
+    "client_urn": 'string',
+    "episode_no": 'string'
 }
