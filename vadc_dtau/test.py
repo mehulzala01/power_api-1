@@ -24,7 +24,7 @@ request_data = {
     "event_type": [ 3.,  2.,  4.,  1., None],
     "percentage_course_completed": ['75% of course completed', '100% of course completed', '50% of course completed', '25% of course completed',
                                         'None of course completed', None, 'Not stated / inadequately described'],
-    "contact_type": ['A', 'P', 'FE', 'C', 'I'],
+    "contact_type": ['A', 'P', 'FE', 'C', 'I'], # Anonymous, CP event, Formal Event, Casual, Formal
     "significant_goal_achieved": 'string',
     "service_team": ['AOD Eastern Harm Minimisation', 'AOD Eastern',
                     'AOD SE Harm Minimisation', 'AOD Intake', 'AOD Inner East',
@@ -37,3 +37,39 @@ request_data = {
     "client_urn": 'string',
     "episode_no": 'string'
 }
+
+request_schema = {
+    "service_stream": "AD20", 
+    "start_date": "2020-06-30",
+    "end_date": "2020-06-30",
+    "funding_source": 100,
+    "target_population": "General Non-specific",
+    "course_length": "Extended", 
+    "contact_count": 10,
+    "contact_count125": 3,
+    "contact_count123459": 4,
+    "contact_count346": 10, 
+    "indigenous_status": "Not Stated/inadequately described",
+    "acso_identifier": 165478410,
+    "referral_direction": "Referral IN",
+    "event_type": 3,
+    "percentage_course_completed": "75% of course completed",
+    "contact_type": "1",
+    "significant_goal_achieved": "Goal achieved",
+    "service_team": "AOD Eastern Harm Minimisation",
+    "outlet_code": 1,
+    "client_urn": "0023123",
+    "episode_no": "2234567"
+}
+
+response_schema = {'message': "Success!", 
+                         'data': {
+                            'dtau_base': 0.1, 
+                            'dtau_weight': 1.15,
+                            'dtau': 1.23, 
+                            'activity_code': '34053',
+                            'activity_name': 'Assessment',
+                            'forensic_type': 'Forensic', 
+                            'roo_flag': 'Y',
+                            'sub_activity': 'Assessment'
+                         }}
