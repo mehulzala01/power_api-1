@@ -186,7 +186,7 @@ def vadc_dtau_cal(request):
         # calculate DTAU weight
         if (indigenous_status in ['Aboriginal', 'Torres Strait Islander', 'BOTH Aboriginal & TSI']):
             dtau_weight = 1.30
-        elif ((acso_identifier not in ['9999999', None] and referral_direction == 'Referral IN') or funding_source in [102, 109, 112, 113, 114, 115]):
+        elif ((acso_identifier not in ['9999999', '0000000'] and referral_direction == 'Referral IN') or funding_source in [102, 109, 112, 113, 114, 115]):
             dtau_weight = 1.15
         else:
             dtau_weight = 1.0
