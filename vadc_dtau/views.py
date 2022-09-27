@@ -67,6 +67,11 @@ def vadc_dtau_cal(request):
             outlet_code = 0
         client_urn = data['client_urn']
         episode_no = data['episode_no']
+        funding_units = data["funding_units"]
+        try:
+            relation_to_client = data["relation_to_client"].split(',')
+        except:
+            relation_to_client = ['']
         date_delta = abs((end_date - start_date).days)
 
         # print('stream:' + service_stream, start_date, end_date, 'funding:' + str(funding_source), 'target:' + target_population, 
@@ -191,6 +196,26 @@ def vadc_dtau_cal(request):
         else:
             dtau_weight = 1.0
 
+        # calculate funding units
+        if funding_units in ['C', 'E', 'E[S]'] and funding_source not in [500, 502, 503] and any(x in ['0', '1', '2', '3', '4', '5'] for x in relation_to_client):
+            dtau_base = 1
+            funding_units = "C"
+        elif funding_source == 100 and service_stream in ['AD11', 'AD20'] and target_population == 'Youth':
+            dtau_base = 1
+            funding_units = "E"
+        elif funding_units == "E":
+            dtau_base = 1
+            funding_units = "E"
+        elif funding_units == "E[S]" and significant_goal_achieved == 'Client achieved a significant goal':
+            dtau_base = 1
+            funding_units = "E[S]"
+        elif funding_source == 102 and service_stream == 'AD20' and target_population == 'Youth':
+            dtau_base = 1
+            funding_units = "E"
+        elif funding_source == 503 and service_stream == 'AD20' and target_population == 'Family':
+            dtau_base = 1
+            funding_units = "PE[S]"
+
         # calculate DTAU
         if (event_type == 3 and percentage_course_completed in ['None of course completed', 'Not stated / inadequately described']):
             dtau = 0
@@ -237,6 +262,7 @@ def vadc_dtau_cal(request):
                     activity_name = 'Assessment'
             else:
                 activity_code = 'UKN'
+                activity_name = 'UKN'
         elif funding_source in [128, 131]:
             activity_code = '34053'
             activity_name = 'Adult Residential Rehabilitation'
@@ -263,6 +289,7 @@ def vadc_dtau_cal(request):
             activity_name = 'Family Focus'
         else:
             activity_code = 'UKN'
+            activity_name = 'UKN'
 
         # Categorize forensic type
         if (acso_identifier not in ['0000000', '9999999'] and referral_direction == 'Referral IN') or funding_source in [102, 109, 112, 113, 114, 115]:
@@ -285,7 +312,7 @@ def vadc_dtau_cal(request):
             sub_activity = activity_name + ' - Brief Intervention'
         else:
             sub_activity = activity_name
-
+        print(episode_no)
         return Response({"message": "Success!", 
                          "data": {
                             "dtau_base": dtau_base, 
@@ -295,6 +322,9 @@ def vadc_dtau_cal(request):
                             "activity_name": activity_name,
                             "forensic_type": forensic, 
                             "roo_flag": roo_flag,
-                            "sub_activity": sub_activity
+                            "sub_activity": sub_activity,
+                            "funding_units": funding_units,
+                            "client_urn": client_urn,
+                            "episode_no": episode_no
                          }})
     return Response({'error': "The VADC DTAU Base api only supports POST operation!"})
