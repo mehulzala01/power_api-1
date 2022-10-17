@@ -19,9 +19,9 @@ services:
       - 5432:5432
     environment:
       - ALLOW_IP_RANGE=0.0.0.0/0
-      - POSTGRES_USER=robindu
-      - POSTGRES_DBNAME=Each
-      - POSTGRES_PASS=Each2022
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_DBNAME=${POSTGRES_DBNAME}
+      - POSTGRES_PASS=${POSTGRES_PASS}
       - POSTGRES_MULTIPLE_EXTENSIONS=postgis,hstore,postgis_topology,postgis_raster,pgrouting
     volumes:
       - postgres:/var/lib/postgresql
@@ -35,8 +35,8 @@ services:
     volumes:
       - pgadmin4:/var/lib/pgadmin
     environment:
-      - PGADMIN_DEFAULT_EMAIL=robin.du@each.com.au
-      - PGADMIN_DEFAULT_PASSWORD=Each2020
+      - PGADMIN_DEFAULT_EMAIL=${PGADMIN_DEFAULT_EMAIL}
+      - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_DEFAULT_PASSWORD}
   neo4j:
     image: neo4j:latest
     container_name: neo4j
@@ -52,46 +52,29 @@ services:
       - neo4j_import:/var/lib/neo4j/import
       - neo4j_plugins:/plugins
   django_api:
-    image: robin0821/power-api:latest
+    image: ubuntu:latest
     container_name: django
-    restart: always
-    volumes:
-      - geodjango_main:/opt/services/djangoapp/src
-      - geodjango_nginx:/opt/services/djangoapp/src/config/nginx/conf.d
-      - static_volume:/opt/services/djangoapp/src/static
-      - media_volume:/opt/services/djangoapp/src/media
-    depends_on:
-      - postgis
-  nginx:
-    image: nginx:latest
-    restart: always
+    restart: on-failure
     ports:
-      - 80:80
-      - 443:443
+      - 8080:8000
     volumes:
-      - geodjango_nginx:/etc/nginx/conf.d
-      - static_volume:/opt/services/djangoapp/src/static
+      - django_main:/opt/services/djangoapp/src
+      - django_nginx:/opt/services/djangoapp/src/config/nginx/conf.d
+      - static_volume:/opt/services/djangoapp/src/static 
+      - media_volume:/opt/services/djangoapp/src/media 
     depends_on:
-      - django_api 
+      - postgis  
+    command: ["sleep","infinity"]
   nlp:
     image: johnsnowlabs/nlp-server:latest
     container_name: nlp
-    restart: always
+    restart: on-failure
     pull_policy: always
     ports:
       - 5000:5000
     volumes:
       - cache_pretrained:/home/johnsnowlabs/cache_pretrained
-  tensorflow:
-    image: tensorflow/tensorflow:latest-jupyter
-    container_name: tensorflow
-    restart: on-failure
-    user: "${UID}:${GID}"
-    ports:
-      - 8888:8888
-    volumes:
-      - /home/robinduadmin/work:/tf/notebooks
-  
+
 volumes:
   jupyterhub_data:
   postgres:
@@ -100,8 +83,8 @@ volumes:
   neo4j_logs:
   neo4j_import:
   neo4j_plugins:
-  geodjango_main:
-  geodjango_nginx:
+  django_main:
+  django_nginx:
   static_volume:
   media_volume:  
   cache_pretrained:
